@@ -2,26 +2,35 @@ import { AuthI18nTranslationsKeys } from '#/modules/auth/i18n';
 
 export const enAuth: AuthI18nTranslationsKeys = {
   'sign-in-page': {
-    title: "Bienvenue dans l'association",
-    subtitle: 'Connectez-vous pour continuer',
+    title: 'Welcome to the Association',
+    subtitle: 'Sign in to continue',
     email: {
       label: 'Email',
       placeholder: 'Email',
+      validation: {
+        IsEmail: 'Please enter a valid email address.',
+        IsNotEmpty: 'The email field is required.',
+      },
     },
     password: {
-      label: 'Mot de passe',
-      placeholder: 'Mot de passe',
+      label: 'Password',
+      placeholder: 'Password',
+      validation: {
+        IsNotEmpty: 'The password field is required.',
+        IsString: 'The password must be a string.',
+        Length: 'The password must be at least 8 characters long.',
+      },
     },
-    'forgot-your-password': 'Mot de passe oublié ?',
-    'sign-up-message': 'Pas encore membre ? ',
-    'sign-up-message-link': 'Rejoignez-nous',
+    'forgot-your-password': 'Forgot your password?',
+    'sign-up-message': 'Not a member yet? ',
+    'sign-up-message-link': 'Join us',
   },
   action: {
     SignInAction: {
-      label: 'Se connecter',
-      success: 'Bien connecté...',
-      pending: 'Connexion...',
-      error: 'Erreur lors de la connexion...',
+      label: 'Sign In',
+      success: 'Successfully signed in...',
+      pending: 'Signing in...',
+      error: 'Error signing in...',
     },
   },
 } as const;

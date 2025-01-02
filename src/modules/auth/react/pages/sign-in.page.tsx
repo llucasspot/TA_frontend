@@ -36,9 +36,8 @@ export function SignInPage() {
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               id="email"
               formKey="email"
-              label="auth.sign-in-page.email.label"
               type="email"
-              placeholder="auth.sign-in-page.email.placeholder"
+              i18nInput={SignInBody.emailI18nKeys}
             />
           </div>
           <div>
@@ -46,13 +45,12 @@ export function SignInPage() {
               className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               id="password"
               formKey="password"
-              label="auth.sign-in-page.password.label"
               type="password"
-              placeholder="auth.sign-in-page.password.placeholder"
+              i18nInput={SignInBody.passwordI18nKeys}
             />
           </div>
           <FormButton className="w-full">
-            {t('auth.action.SignInAction.success.label')}
+            {t('auth.action.SignInAction.label')}
           </FormButton>
         </Form>
 

@@ -1,17 +1,23 @@
 import { IsEmail, IsNotEmpty, IsString, Length } from 'class-validator';
 
 import { Dto } from '#/utils/core/domain';
+import { I18nInput } from '#/utils/i18n/domain';
 
 import { Transform } from '#class-transformer';
 
 export class SignInBody extends Dto<SignInBody> {
-  @IsEmail({}, { message: 'auth.signIn.validation.email.IsEmail' })
-  @IsNotEmpty({ message: 'auth.signIn.validation.email.IsNotEmpty' })
+  static emailI18nKeys = new I18nInput('auth.sign-in-page.email');
+  static passwordI18nKeys = new I18nInput('auth.sign-in-page.password');
+
+  @IsEmail({}, { message: SignInBody.emailI18nKeys.validation.IsEmail })
+  @IsNotEmpty({ message: SignInBody.emailI18nKeys.validation.IsNotEmpty })
   @Transform(({ value }) => value?.trim().toLowerCase())
   email!: string;
 
-  @IsString({ message: 'auth.login.validation.password.IsString' })
-  @Length(8, undefined, { message: 'auth.login.validation.password.Length' })
-  @IsNotEmpty({ message: 'auth.login.validation.password.IsNotEmpty' })
+  @IsString({ message: SignInBody.passwordI18nKeys.validation.IsString })
+  @Length(8, undefined, {
+    message: SignInBody.passwordI18nKeys.validation.Length,
+  })
+  @IsNotEmpty({ message: SignInBody.passwordI18nKeys.validation.IsNotEmpty })
   password!: string;
 }

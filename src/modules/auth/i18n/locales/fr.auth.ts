@@ -7,10 +7,19 @@ export const frAuth: AuthI18nTranslationsKeys = {
     email: {
       label: 'Email',
       placeholder: 'Email',
+      validation: {
+        IsEmail: 'Veuillez entrer une adresse email valide.',
+        IsNotEmpty: 'Le champ email est obligatoire.',
+      },
     },
     password: {
       label: 'Mot de passe',
       placeholder: 'Mot de passe',
+      validation: {
+        IsNotEmpty: 'Le champ mot de passe est obligatoire.',
+        IsString: 'Le mot de passe doit être une chaîne de caractères.',
+        Length: 'Le mot de passe doit contenir au moins 8 caractères.',
+      },
     },
     'forgot-your-password': 'Mot de passe oublié ?',
     'sign-up-message': 'Pas encore membre ? ',

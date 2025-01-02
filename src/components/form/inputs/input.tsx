@@ -1,18 +1,21 @@
 import { ComponentProps } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { I18nInput } from '#/utils/i18n/domain';
 import { useI18n } from '#/utils/i18n/react';
 
 type InputProps = Omit<ComponentProps<'input'>, 'hidden' | 'readOnly'> & {
-  label: string;
+  label?: string;
   formKey: string;
+  i18nInput?: I18nInput;
 };
 
 export function Input({
-  label,
+  label: _label,
+  placeholder: _placeholder,
   formKey,
   className = '',
-  placeholder,
+  i18nInput,
   ...props
 }: InputProps) {
   const { t } = useI18n();
@@ -23,14 +26,19 @@ export function Input({
 
   const error = errors[formKey]?.message as string;
 
+  const label = i18nInput?.label ?? _label;
+  const placeholder = i18nInput?.placeholder ?? _placeholder;
+
   return (
     <div className="space-y-1">
-      <label
-        htmlFor={formKey}
-        className="block text-sm font-medium text-gray-700"
-      >
-        {t(label)}
-      </label>
+      {label && (
+        <label
+          htmlFor={formKey}
+          className="block text-sm font-medium text-gray-700"
+        >
+          {t(label)}
+        </label>
+      )}
       <input
         type={formKey}
         id={formKey}
