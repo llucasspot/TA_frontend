@@ -1,6 +1,11 @@
 import react from '@vitejs/plugin-react';
 import dotenv from 'dotenv';
+import path from 'path';
 import { defineConfig } from 'vite';
+
+function build(relativePath: string) {
+  return path.resolve(__dirname, relativePath);
+}
 
 dotenv.config();
 
@@ -17,6 +22,11 @@ export default defineConfig({
     port: 3101,
   },
   resolve: {
-    alias: {},
+    alias: {
+      '#': build('src'),
+      '#class-transformer': build('libs/class-transformer'),
+      '#@nestjs/common': build('libs/@nestjs/common'),
+      '#@nestjs/mapped-types': build('libs/@nestjs/mapped-types'),
+    },
   },
 });
