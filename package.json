@@ -13,6 +13,7 @@
     "check:all": "npm run check:lint && npm run check:format && npm run check:typecheck"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@nanostores/react": "^0.8.4",
     "@tanstack/react-query": "^5.62.11",
     "@tanstack/react-router": "^1.93.0",
@@ -25,6 +26,7 @@
     "nanostores": "^0.11.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
     "react-i18next": "^15.4.0",
     "react-toastify": "^11.0.2",
     "reflect-metadata": "^0.2.2",

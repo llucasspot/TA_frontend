@@ -1,6 +1,7 @@
 import {
   createRootRouteWithContext,
   createRoute,
+  redirect,
 } from '@tanstack/react-router';
 
 import { AuthService } from '#/modules/auth/domain';
@@ -24,6 +25,11 @@ export const authLayout = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
   component: OutletLayout,
+  beforeLoad: ({ context }) => {
+    if (context.authService.isAuthenticated()) {
+      throw redirect({ to: '/home' });
+    }
+  },
 });
 
 export const signInRoute = createRoute({
@@ -38,6 +44,11 @@ export const rootLayout = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: RootLayout,
+  beforeLoad: ({ context }) => {
+    if (!context.authService.isAuthenticated()) {
+      throw redirect({ to: '/auth/sign-in' });
+    }
+  },
 });
 
 export const homeRoute = createRoute({

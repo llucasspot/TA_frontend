@@ -17,9 +17,9 @@ export class AuthService {
 
   async signIn(body: SignInBody): Promise<void> {
     const { accessToken, userId } = await this.authProvider.signIn(body);
-    const photographer = await this.authProvider.getUserInfo(userId);
+    const user = await this.authProvider.getUserInfo(userId);
 
-    this.authState.set({ currentUser: photographer });
+    this.authState.set({ currentUser: user });
     this.storageService.set(StorageService.currentAccessToken, accessToken);
     this.storageService.set(StorageService.currentUserId, userId);
   }

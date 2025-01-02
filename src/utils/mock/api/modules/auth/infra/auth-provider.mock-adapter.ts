@@ -24,58 +24,53 @@ export class AuthProviderMockAdapter
   }
 
   async getUserInfo(userId: string): Promise<AuthUser> {
-    const photographer = await this.usersDao.getById(userId);
+    const user = await this.usersDao.getById(userId);
 
-    if (!photographer) {
+    if (!user) {
       throw new Error('Invalid credentials');
     }
 
-    return photographer;
+    return user;
   }
 
   async signIn({ email, password }: SignInBody): Promise<AuthResponse> {
-    const photographer = await this.usersDao.get(
-      this.buildPhotographerFinderByEmail(email, password),
+    const user = await this.usersDao.get(
+      this.buildUserFinderByEmail(email, password),
     );
 
-    if (!photographer) {
+    if (!user) {
       return this.signUp({ email, password, confirmPassword: password });
     }
 
     return {
-      accessToken: `mock_token_${photographer.id}`,
-      userId: photographer.id,
+      accessToken: `mock_token_${user.id}`,
+      userId: user.id,
     };
   }
 
   async signUp({ email, password }: SignUpBody): Promise<AuthResponse> {
-    const photographer = await this.usersDao.get(
-      this.buildPhotographerFinderByEmail(email),
-    );
-    if (photographer) {
+    const user = await this.usersDao.get(this.buildUserFinderByEmail(email));
+    if (user) {
       throw new Error('User already exis');
     }
 
-    const newPhotographer: AuthUser = await this.usersDao.save({
+    const newUser: AuthUser = await this.usersDao.save({
       email,
       password,
     });
 
     return {
-      accessToken: `mock_token_${newPhotographer.id}`,
-      userId: newPhotographer.id,
+      accessToken: `mock_token_${newUser.id}`,
+      userId: newUser.id,
     };
   }
 
   async logout(): Promise<void> {}
 
-  private buildPhotographerFinderByEmail(
-    photographerEmail?: string,
-    password?: string,
-  ) {
+  private buildUserFinderByEmail(userEmail?: string, password?: string) {
     const finder = new Finder('users');
-    if (photographerEmail) {
-      finder.filtersWith(['email', '$equals', photographerEmail]);
+    if (userEmail) {
+      finder.filtersWith(['email', '$equals', userEmail]);
     }
     if (password) {
       finder.filtersWith(['password', '$equals', password]);

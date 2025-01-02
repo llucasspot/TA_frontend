@@ -1,6 +1,5 @@
 import { inject, singleton } from '#/utils/di';
 
-import { JsonStorageItemSerializer } from './storage-item-serializers/json-storage-item-serializer';
 import { StorageItemSerializer } from './storage-item-serializers/storage-item-serializer.abstract';
 import { StringStorageItemSerializer } from './storage-item-serializers/string-storage-item-serializer';
 import { BrowserStorageServicePort } from './browser-storage.service.port';
@@ -21,10 +20,6 @@ export class StorageService {
   static currentAccessToken = new StorageItem(
     'currentAccessToken',
     new StringStorageItemSerializer(null),
-  );
-  static studentCodes = new StorageItem(
-    'studentCode',
-    new JsonStorageItemSerializer<string[], string[]>([]),
   );
 
   constructor(
