@@ -1,3 +1,4 @@
+import { Button } from '#/components/button';
 import { Form, FormButton, Input } from '#/components/form';
 import { SignInBody } from '#/modules/auth/domain';
 import { SignInAction } from '#/modules/auth/use-cases';
@@ -21,7 +22,7 @@ export function SignInPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-blue-500 to-green-500">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-b from-primary-500 to-primary-600">
       <div className="w-full max-w-md p-8 bg-white shadow-lg rounded-lg">
         <h2 className="text-2xl font-bold text-center text-gray-700">
           {t('auth.sign-in-page.title')}
@@ -33,7 +34,7 @@ export function SignInPage() {
         <Form dto={SignInBody} onSubmit={onSubmit} className="space-y-4">
           <div>
             <Input
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FED593]"
               id="email"
               formKey="email"
               type="email"
@@ -42,32 +43,45 @@ export function SignInPage() {
           </div>
           <div>
             <Input
-              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full mt-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#FED593]"
               id="password"
               formKey="password"
               type="password"
               i18nInput={SignInBody.passwordI18nKeys}
             />
           </div>
-          <FormButton className="w-full">
-            {t('auth.action.SignInAction.label')}
-          </FormButton>
+          <FormButton
+            variant="flat"
+            state="default"
+            className="w-full"
+            label="auth.action.SignInAction.label"
+          />
         </Form>
 
         {forgotYourPasswordFeatureFlip.data && (
           <div className="text-center mt-4">
-            <a href="#" className="text-blue-500 hover:underline">
-              {t('auth.sign-in-page.forgot-your-password')}
-            </a>
+            <Button
+              link={{
+                to: '/',
+              }}
+              variant="inline"
+              state="default"
+              label="auth.sign-in-page.forgot-your-password"
+            />
           </div>
         )}
 
         {signUpFeatureFlip.data && (
           <div className="text-center mt-6 text-gray-500">
             {t('auth.sign-in-page.sign-up-message')}
-            <a href="#" className="text-blue-500 hover:underline">
-              {t('auth.sign-in-page.sign-up-message-link')}
-            </a>
+            <Button
+              link={{
+                to: '/',
+              }}
+              variant="inline"
+              state="default"
+              label="auth.sign-in-page.sign-up-message-link"
+            />
           </div>
         )}
       </div>

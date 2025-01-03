@@ -1,55 +1,82 @@
 import { ComponentProps } from 'react';
+import { Button as HeadlessuiButton } from '@headlessui/react';
 
 import { classNames } from '#/utils/core/react';
-import { Link, LinkProps } from '#/utils/routing/react';
+import { useI18n } from '#/utils/i18n/react';
+import { Link } from '#/utils/routing/react';
 
-export type ButtonProps = ComponentProps<'button'> & {
-  variant?: 'primary' | 'secondary';
-  link?: LinkProps;
-};
+export type ButtonProps = {
+  link?: ComponentProps<typeof Link>;
+  variant?: 'flat' | 'inline' | 'outline';
+  state?: 'default';
+  label: string;
+  reset?: boolean;
+} & Pick<ComponentProps<'button'>, 'onClick' | 'className' | 'disabled'>;
 
-export const Button = ({
-  children,
-  variant = 'primary',
-  className = '',
-  type = 'button',
-  link,
-  ...props
-}: ButtonProps) => {
-  // const baseStyles = 'px-4 py-2 rounded-lg font-medium transition-colors';
-  const baseStyles =
-    'py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500';
-  const getVariantClassName = {
-    primary: 'bg-blue-500 text-white hover:bg-blue-700',
-    secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300',
+export function Button({
+  link: linkProps,
+  variant = 'flat',
+  state = 'default',
+  label,
+  disabled = false,
+  className,
+  onClick,
+  reset = false,
+}: ButtonProps) {
+  const { t } = useI18n();
+
+  const type = onClick ? 'button' : reset ? 'reset' : 'submit';
+
+  const baseStyles = 'text-center py-2 px-6 rounded-lg button-shadow';
+
+  const variants = {
+    flat: {
+      default: classNames(
+        'bg-primary-500 text-on-primary-500',
+        'hover:bg-primary-600',
+        'active:bg-primary-700',
+      ),
+      disabled: 'bg-gray-300 text-gray-500 cursor-not-allowed',
+    },
+    outline: {
+      default: 'outline text-primary-600',
+      disabled: 'outline text-gray-400 cursor-not-allowed',
+    },
+    inline: {
+      default: classNames('text-primary-600', 'hover:underline', 'py-0 px-0'),
+      disabled: classNames('text-gray-400 cursor-not-allowed', 'py-0 px-0'),
+    },
   };
 
-  if (link) {
+  if (linkProps) {
     return (
-      <Link
+      <HeadlessuiButton
+        as={Link}
+        {...linkProps}
+        disabled={disabled}
         className={classNames(
           baseStyles,
-          getVariantClassName[variant],
+          disabled ? variants[variant].disabled : variants[variant][state],
           className,
         )}
-        {...link}
       >
-        {children}
-      </Link>
+        {t(label)}
+      </HeadlessuiButton>
     );
   }
 
   return (
-    <button
+    <HeadlessuiButton
       type={type}
+      onClick={onClick}
+      disabled={disabled}
       className={classNames(
         baseStyles,
-        getVariantClassName[variant],
+        disabled ? variants[variant].disabled : variants[variant][state],
         className,
       )}
-      {...props}
     >
-      {children}
-    </button>
+      {t(label)}
+    </HeadlessuiButton>
   );
-};
+}

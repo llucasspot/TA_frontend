@@ -2,22 +2,12 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ButtonProps } from '#/components/button';
 
-type FormButton = Omit<ButtonProps, 'disabled' | 'type'> & {
-  type?: Extract<ButtonProps['type'], 'submit' | 'reset'>;
-};
+type FormButton = Omit<ButtonProps, 'disabled'>;
 
-export const FormButton = ({
-  children,
-  type = 'submit',
-  ...props
-}: FormButton) => {
+export const FormButton = ({ ...props }: FormButton) => {
   const {
     formState: { isSubmitting },
   } = useFormContext();
 
-  return (
-    <Button type={type} disabled={isSubmitting} {...props}>
-      {children}
-    </Button>
-  );
+  return <Button disabled={isSubmitting} {...props} />;
 };
