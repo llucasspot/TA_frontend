@@ -34,9 +34,7 @@ export class AuthProviderMockAdapter
   }
 
   async signIn({ email, password }: SignInBody): Promise<AuthResponse> {
-    const user = await this.usersDao.get(
-      this.buildUserFinderByEmail(email, password),
-    );
+    const user = await this.usersDao.get(this.buildUserFinderByEmail(email));
 
     if (!user) {
       return this.signUp({ email, password, confirmPassword: password });
@@ -65,15 +63,12 @@ export class AuthProviderMockAdapter
     };
   }
 
-  async logout(): Promise<void> {}
+  async signOut(): Promise<void> {}
 
-  private buildUserFinderByEmail(userEmail?: string, password?: string) {
+  private buildUserFinderByEmail(userEmail?: string) {
     const finder = new Finder('users');
     if (userEmail) {
       finder.filtersWith(['email', '$equals', userEmail]);
-    }
-    if (password) {
-      finder.filtersWith(['password', '$equals', password]);
     }
     return finder;
   }

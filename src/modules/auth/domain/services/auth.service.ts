@@ -19,15 +19,15 @@ export class AuthService {
     const { accessToken, userId } = await this.authProvider.signIn(body);
     const user = await this.authProvider.getUserInfo(userId);
 
-    this.authState.set({ currentUser: user });
+    this.authState.set({ currentUser: user, isAuthenticated: true });
     this.storageService.set(StorageService.currentAccessToken, accessToken);
     this.storageService.set(StorageService.currentUserId, userId);
   }
 
   async logout() {
-    await this.authProvider.logout();
+    await this.authProvider.signOut();
 
-    this.authState.set({ currentUser: null });
+    this.authState.set({ currentUser: null, isAuthenticated: false });
     this.storageService.remove(StorageService.currentAccessToken);
     this.storageService.remove(StorageService.currentUserId);
   }

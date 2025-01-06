@@ -1,7 +1,6 @@
 import {
   createRootRouteWithContext,
   createRoute,
-  redirect,
 } from '@tanstack/react-router';
 
 import { AuthService } from '#/modules/auth/domain';
@@ -9,6 +8,7 @@ import { HomePage } from '#/modules/auth/react/pages/home.page';
 import { SignInPage } from '#/modules/auth/react/pages/sign-in.page';
 import { RoutingServicePort } from '#/utils/routing/domain';
 import { OutletLayout, RootLayout } from '#/utils/routing/react/layout';
+import { DevToolHeader } from '#/utils/routing/react/layout/dev-kit/dev-kit-header';
 
 type Context = {
   routingService: RoutingServicePort;
@@ -16,7 +16,12 @@ type Context = {
 };
 
 export const rootRoute = createRootRouteWithContext<Context>()({
-  component: OutletLayout,
+  component: () => (
+    <>
+      <DevToolHeader />
+      <OutletLayout />
+    </>
+  ),
 });
 
 // ----- authLayout -----
@@ -25,11 +30,6 @@ export const authLayout = createRoute({
   getParentRoute: () => rootRoute,
   path: '/auth',
   component: OutletLayout,
-  beforeLoad: ({ context }) => {
-    if (context.authService.isAuthenticated()) {
-      throw redirect({ to: '/home' });
-    }
-  },
 });
 
 export const signInRoute = createRoute({
@@ -44,11 +44,6 @@ export const rootLayout = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: RootLayout,
-  beforeLoad: ({ context }) => {
-    if (!context.authService.isAuthenticated()) {
-      throw redirect({ to: '/auth/sign-in' });
-    }
-  },
 });
 
 export const homeRoute = createRoute({

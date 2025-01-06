@@ -5,7 +5,14 @@ import { Token } from '#/utils/di/domain';
 import { useService } from '#/utils/di/react';
 import { ToastService } from '#/utils/toast/domain';
 
-export function useAction<TData, TBody>(Action: Token<ActionI<TData, TBody>>) {
+type ActionResult<TData, TBody> = {
+  mutate: (body: TBody) => void;
+  mutateAsync: (body: TBody) => Promise<TData>;
+};
+
+export function useAction<TData = unknown, TBody = void>(
+  Action: Token<ActionI<TData, TBody>>,
+): ActionResult<TData, TBody> {
   const action = useService(Action);
   const toastService = useService(ToastService);
 

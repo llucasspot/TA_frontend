@@ -17,5 +17,5 @@ export abstract class AuthProviderPort {
 
   abstract signUp(body: SignUpBody): Promise<AuthResponse>;
 
-  abstract logout(): Promise<void>;
+  abstract signOut(): Promise<void>;
 }
